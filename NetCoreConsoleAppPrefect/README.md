@@ -13,7 +13,3 @@ VS自带的控制台模板创建后没有依赖注入，没有配置文件，所
 
 
 ## 此为项目的模板文件，直接导出项目模板就行了
-
-## Publish 2021/07/10
-
-`NetCoreConsoleAppPrefect.zip` 为导出的模板文件，放到`C:\Users\litdev\Documents\Visual Studio 2019\Templates\ProjectTemplates` 这个目录下
