@@ -7,22 +7,26 @@ using NetCoreConsoleAppPrefect.IServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
+/**
+ * 使用Mustachio模板引擎自动生成
+ */
+
 namespace NetCoreConsoleAppPrefect.Services
 {
     /// <summary>
-    /// 测试
+    /// {{ ServiceDesc }}
     /// </summary>
-    public class DemoService : BaseBusinessService, IDemoService
+    public class {{ ServiceName }}Service : BaseBusinessService, I{{ ServiceName }}Service
     {
-        public DemoService(ILogger<DemoService> logger, IConfiguration config) : base(logger, config)
+        public {{ ServiceName }}Service(ILogger<{{ ServiceName }}Service> logger, IConfiguration config) : base(logger, config)
         {
 
         }
 
-        public Task Test()
+        public Task Method1()
         {
-            _logger.LogInformation(_config.GetValue<string>("Default:Key") + "--" + _config.GetValue<decimal>("Default:Key2"));
-            
+            //_logger.LogInformation(_config.GetValue<string>("Default:Key"));
+
             return Task.CompletedTask;
         }
     }

@@ -9,7 +9,7 @@ namespace NetCoreConsoleAppPrefect.IServices
     /// <summary>
     /// 多线程演示
     /// </summary>
-    public interface IThredDemoService
+    public interface IThredDemoService : IBaseBusinessService
     {
         Task Exec();
     }

@@ -20,18 +20,26 @@ namespace NetCoreConsoleAppPrefect
     class Program
     {
         private static IConfiguration _configuration;
+        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
 
         static void Main(string[] args)
         {
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
             var host = AppStartup();
 
-            //var demoService = ActivatorUtilities.CreateInstance<DemoService>(host.Services);
-            //demoService.Test();
+            ////Service层代码生成
+            //var codeGenerateService = ActivatorUtilities.CreateInstance<CodeGenerateService>(host.Services);
+            //codeGenerateService.GenerateBusinessServiceFile("User", "用户");
 
-            var threadDemoService = ActivatorUtilities.CreateInstance<ThredDemoService>(host.Services);
-            threadDemoService.Exec();
+            var demoService = ActivatorUtilities.CreateInstance<DemoService>(host.Services);
+            demoService.Test();
+
+            //var threadDemoService = ActivatorUtilities.CreateInstance<ThredDemoService>(host.Services);
+            //threadDemoService.Exec();
 
         }
+       
 
 
         #region DI
@@ -44,8 +52,6 @@ namespace NetCoreConsoleAppPrefect
         {
             _configuration = new ConfigurationBuilder().SetBasePath("".GetProgramDirectory())
                     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true).Build();
-
-            var logger = NLog.LogManager.GetCurrentClassLogger();
 
             var host = Host.CreateDefaultBuilder()
                         .ConfigureServices((context, services) =>
@@ -65,7 +71,17 @@ namespace NetCoreConsoleAppPrefect
 
         }
 
+        /// <summary>
+        /// 全局异常处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            _logger.Error(e.ExceptionObject.ToString());
 
+            Environment.Exit(1);
+        }
 
         #endregion
     }
