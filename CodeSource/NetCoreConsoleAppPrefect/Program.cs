@@ -50,8 +50,11 @@ namespace NetCoreConsoleAppPrefect
         /// <returns></returns>
         static IHost AppStartup()
         {
-            _configuration = new ConfigurationBuilder().SetBasePath("".GetProgramDirectory())
-                    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true).Build();
+            var basePath = "".GetProgramDirectory();
+            _configuration = new ConfigurationBuilder().SetBasePath(basePath)
+                    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                    .AddUserSecrets<Program>()
+                    .Build();
 
             var host = Host.CreateDefaultBuilder()
                         .ConfigureServices((context, services) =>
@@ -59,8 +62,10 @@ namespace NetCoreConsoleAppPrefect
                             services.AddLogging(option =>
                             {
                                 option.SetMinimumLevel(LogLevel.Information);
-                                option.AddNLog(Path.Combine("".GetProgramDirectory(), "nlog.config"));
+                                option.AddNLog(Path.Combine(basePath, "nlog.config"));
                             });
+
+                            services.AddSingleton(typeof(IConfiguration), _configuration);
 
                             services.BatchRegisterServices(new Assembly[] { Assembly.Load(AppDomain.CurrentDomain.FriendlyName) }, typeof(IBatchDIServicesTag));
 

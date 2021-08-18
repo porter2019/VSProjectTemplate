@@ -9,6 +9,9 @@ using Microsoft.Extensions.Logging;
 
 namespace $safeprojectname$.Services
 {
+    /// <summary>
+    /// 测试
+    /// </summary>
     public class DemoService : BaseBusinessService, IDemoService
     {
         public DemoService(ILogger<DemoService> logger, IConfiguration config) : base(logger, config)
@@ -19,7 +22,7 @@ namespace $safeprojectname$.Services
         public Task Test()
         {
             _logger.LogInformation(_config.GetValue<string>("Default:Key") + "--" + _config.GetValue<decimal>("Default:Key2"));
-
+            
             return Task.CompletedTask;
         }
     }

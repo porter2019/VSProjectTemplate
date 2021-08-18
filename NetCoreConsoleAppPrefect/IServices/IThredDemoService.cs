@@ -10,7 +10,7 @@ namespace $safeprojectname$.IServices
     /// 多线程演示
     /// </summary>
     public interface IThredDemoService : IBaseBusinessService
-{
+    {
         Task Exec();
     }
 }

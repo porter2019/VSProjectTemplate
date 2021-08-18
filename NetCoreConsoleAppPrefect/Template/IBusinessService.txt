@@ -1,0 +1,16 @@
+﻿using System.Threading.Tasks;
+
+/**
+ * 使用Mustachio模板引擎自动生成
+ */
+
+namespace $safeprojectname$.IServices
+{
+    /// <summary>
+    /// {{ ServiceDesc }}
+    /// </summary>
+    public interface I{{ ServiceName }}Service : IBaseBusinessService
+    {
+        Task Method1();
+    }
+}
