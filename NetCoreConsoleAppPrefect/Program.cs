@@ -2,15 +2,13 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using $safeprojectname$.IServices;
 using NLog.Extensions.Logging;
 using System;
-using System.Diagnostics;
-using System.IO;
-using $safeprojectname$.IServices;
-using $safeprojectname$.Services;
-using System.Reflection;
-using System.Linq;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 
 namespace $safeprojectname$
 {
@@ -28,16 +26,15 @@ namespace $safeprojectname$
 
             var host = AppStartup();
 
-            ////Service层代码生成
-            //var codeGenerateService = ActivatorUtilities.CreateInstance<CodeGenerateService>(host.Services);
+            //Service层代码生成
+            //var codeGenerateService = host.Services.GetRequiredService<ICodeGenerateService>();
             //codeGenerateService.GenerateBusinessServiceFile("User", "用户");
 
-            var demoService = ActivatorUtilities.CreateInstance<DemoService>(host.Services);
+            var demoService = host.Services.GetRequiredService<IDemoService>();
             demoService.Test();
 
-            //var threadDemoService = ActivatorUtilities.CreateInstance<ThredDemoService>(host.Services);
+            //var threadDemoService = host.Services.GetRequiredService<IThredDemoService>();
             //threadDemoService.Exec();
-
         }
        
 
@@ -66,7 +63,7 @@ namespace $safeprojectname$
                             });
 
                             services.AddSingleton(typeof(IConfiguration), _configuration);
-
+                            
                             services.BatchRegisterServices(new Assembly[] { Assembly.Load(AppDomain.CurrentDomain.FriendlyName) }, typeof(IBatchDIServicesTag));
 
                         })
